@@ -1,21 +1,20 @@
 package com.functional.training
 
 import arrow.effects.IO
+import arrow.effects.extensions.io.fx.fx
 import arrow.effects.extensions.io.monad.binding
 import arrow.syntax.collections.tail
 import com.functional.training.Command.*
 
-
-
 fun run(): IO<Unit> {
 
-    return binding {
-                           welcome().bind()
-        val (planet)     = readPlanet()
-        val (rover)      = readRover()
-        val (commands)   = readCommands()
+    return fx {
+                           !welcome()
+        val planet       = !readPlanet()
+        val rover        = !readRover()
+        val commands     = !readCommands()
         val result       = handleCommands(commands,rover,planet)
-        val (display)    = display(result)
+        val display      = !display(result)
         display
     }
 }
